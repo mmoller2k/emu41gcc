@@ -1,0 +1,130 @@
+Emu41 source file notes - J-F Garnier, December 2009
+
+
+' -------------------------------------------------------------------------------
+' This program is free software; you can redistribute it and/or
+' modify it under the terms of the GNU General Public License
+' as published by the Free Software Foundation; either version 2
+' of the License, or (at your option) any later version.
+'
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+'
+' You should have received a copy of the GNU General Public License
+' along with this program; if not, write to the Free Software
+' Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+' -------------------------------------------------------------------------------
+
+
+
+
+Source files:
+
+emu41.c		Main module
+loader.c	RAM/ROM module and HPIL device loader
+nutcpu.c	Nut CPU simulator
+display.c	LCD chip simulation
+timer.c		Timer chip simulation
+printer.c       HP82143 printer simulation
+hpil.c		HPIL interface simulation
+monit.c		Monitor/debugger
+desas41.c	HP-41 microcode disassembler
+trans.c		Label mnemonic translator
+userpc.c	User interface (PC DOS version)
+delai.c		Low level delay routines (PC DOS version)
+ildisp.c	HPIL display device
+ilhdisc.c	HPIL LIF drive 1
+ilhdisc2.c	HPIL LIF drive 2
+ilfdisc.c	HPIL Floppy drive
+ildrive.c	HPIL mass storage protocol routines
+ildos.c		HPIL DOS link
+ilcentro.c	HPIL parallel interface
+ilser1.c	HPIL serial interface 1
+ilser2.c	HPIL serial interface 2
+ilserial.c	HPIL serial port access routines
+ilext.c		External HPIL interface (HPIL PC board)
+ilext2.c        External HPIL interface (PIL-Box: serial/HPIL translator)
+
+nutcpu.h	Global variables
+delai.h		Function prototypes
+display.h	Function prototypes
+hpil.h		Function prototypes and HPIL global variables
+timer.h		Function prototypes and timer global variables
+version.h	Version dependant welcome messages
+
+clbin41.c	HP41 ROM file format converter (standalone)
+
+Alternate files (not released):
+emu41lt.c	Light version for Classic HP Vectra 286,
+		HP95/100/200LX and HP Portable Plus versions
+userp.c		User interface for Portable Plus version
+userlt.c	User interface for Classic HP Vectra 286 and
+		HP95/100/200LX versions
+nutcpu2.asm	Assembler version of nutcpu.c for slow machines
+xmodem.c	Simple X-Modem protocol for Emu41p
+
+Emu41 was compiled with Borland C++ 4.52 (actually used in pure C flavor).
+Light versions (Emu41p, Emu41lx, Emu41lt) were compiled with Borland C 2.0, nutcpu2.asm was assembled with Borland Turbo Assembler.
+
+
+Global conditional compilation symbols:
+XIL: support of external HP-IL with HP-IL/PC board
+VERS_ASM: use nutcpu2.asm
+VERS_SLOW: for slow machines (8086, 186, 286)
+VERS_LAP: disable HDRIVE2, FDRIVE1, LPRTER1, SERIAL2 (for Portable Plus and LX)
+HPPLUS: specific for the HP Portable Plus
+HPLX: specific for the HP 95/100/200LX serie
+FPU: support of FPU (not implemented)
+
+Versions and compilation symbols:
+Standard version:   XIL
+Light version:      VERS_SLOW, VERS_ASM, XIL
+Portable Plus:      VERS_SLOW, VERS_ASM, XIL, VERS_LAP, HPPLUS
+HP 95/100/200LX:    VERS_SLOW, VERS_ASM, VERS_LAP, HPLX
+
+
+
+History:
+
+version 2.50 - December 2009
+  - Full source code released under GNU Licence
+
+version 2.48 - November 2009
+  - Improved native support of the PIL-Box.
+
+version 2.48a - January 09 (not published)
+  - attempted to support LPRTER (printer device) with DOS calls instead of BIOS calls. Uses the syntax "LPRTER1 D".
+
+version 2.47 - October 2008
+  - fixed a problem that made the use of the HP-IL ISA board very slow
+  - the problem is still reported on some systems 
+
+version 2.45 - December 2007
+  - no more registered, all features including external HP-IL support with HP-IL ISA PC board.
+  - experimental support of HP-IL/serial translator.
+
+version 2.40 - 14 april 2006
+  - Emulation of the Eramco RAM System Unit (RSU)
+  - Serial ports
+  - F12 acts as a reset key
+
+version 2.3x - 2005-2006
+  - Working versions for serial support testing - not released.
+
+version 2.21 - 23 Nov. 2005
+  - correction of a minor bug related to synthetic WTRA/READA
+
+version 2.20 - 14 feb. 2004
+  - support of 43 and 50 lines display modes,
+  - improved display and keyboard management,
+  - automatic shift key management in ALPHA mode
+  - automatic BST key management without shift,
+  - manual speed switching with TAB key
+  - compatible with standard ROM image format (.rom, .41r),
+  - Emulation of the W&W 64K RAMBOX II (or HP-41CY),
+  - parallel interface device renamed to LPRTER1 instead of PRINTER.
+  - HDRIVE2 mass storage unit
+  - correction of some bugs
+  - clbin41 utility upgrade
